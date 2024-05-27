@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glowing</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        /* font size  */
+        --f13: 13px;
+        --f15: 15px;
+        --f16: 16px;
+        --swiper-navigation-size: 20px;
+        /* color */
+        --bg: #fcf7ee;
+        --btn1: #ecdec1;
+        --btn2: black;
+        --btn3: white;
+        --btn4: rgb(104, 104, 104);
+        --swiper-theme-color: #ecdec2;
+        /* font-family */
+        --fm-nu: "Nunito", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Nunito", sans-serif;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      li {
+        list-style: none;
+      }
+      a {
+        text-decoration: none;
+      }
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: var(--btn3);
+        padding: 0 25px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 9999;
+      }
+      .bar-icon {
+        display: none;
+      }
+      .navbar img {
+        width: 12%;
+      }
+      .navbar .list-menu {
+        display: flex;
+      }
+      .navbar .list-menu li {
+        font-size: var(--f15);
+        cursor: pointer;
+      }
+      .navbar .list-menu li a {
+        padding: 20px;
+        display: block;
+        color: var(--btn2);
+      }
+      .navbar .list-menu.active {
+        display: block;
+        background-color: white;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+      }
+      .navbar .list-menu.active li {
+        padding: 10px;
+        border: 1px solid #dedede;
+        border-bottom: none;
+      }
+      .navbar .list-menu.active li:last-child {
+        border-bottom: 1px solid #dedede;
+      }
+      .navbar .right-btn {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .btn-learn {
+        font-weight: 500;
+        border-radius: 2px;
+        background-color: var(--btn1);
+        border: none;
+        font-size: var(--f15);
+        cursor: pointer;
+      }
+      .btn-learn a {
+        padding: 10px 20px;
+        display: block;
+        font-size: var(--f13);
+        transition: 0.5s;
+        font-family: var(--fm-nu);
+        color: var(--btn2);
+      }
+      .btn-learn a:hover {
+        background-color: var(--btn2);
+        color: var(--btn3);
+      }
+      .navbar .btn-learn {
+        font-weight: 500;
+        border-radius: 2px;
+        background-color: var(--btn1);
+        border: none;
+        font-size: var(--f15);
+        cursor: pointer;
+      }
+      .navbar .btn-learn a {
+        padding: 10px 20px;
+        display: block;
+        font-size: var(--f13);
+        transition: 0.5s;
+        font-family: var(--fm-nu);
+        color: var(--btn2);
+      }
+      .navbar .btn-learn a:hover {
+        background-color: var(--btn2);
+        color: var(--btn3);
+      }
+      .navbar .btn-cart {
+        border: none;
+        background-color: transparent;
+      }
+      .banner {
+        height: 100vh;
+        width: 100%;
+      }
+      .slide {
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .banner .slide-first {
+        background-image: url(https://glowing.g5plus.net/main/wp-content/uploads/2021/10/blog-11.jpg);
+      }
+      .banner .slide-two {
+        background-image: url(https://glowing.g5plus.net/main/wp-content/uploads/2021/10/blog-12.jpg);
+      }
+      .banner .slide-three {
+        background-image: url(https://glowing.g5plus.net/main/wp-content/uploads/2021/10/blog-10.jpg);
+      }
+      .banner .slide h2 {
+        color: white;
+        font-size: 50px;
+        text-shadow: 2px 2px #d4d4d4;
+        margin: 20px 0;
+      }
+      .banner .slide h3 {
+        color: var(--btn3);
+      }
+      .swiper-button-prev,
+      .swiper-button-next {
+        background-color: rgba(128, 128, 128, 0.377);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+      .banner .text-head button {
+        max-width: 200px;
+        flex-shrink: 0;
+        width: 100%;
+        padding: 15px 0;
+        font-family: var(--fm-nu);
+        background-color: var(--btn1);
+        border: 0;
+        color: var(--btn2);
+        font-weight: 600;
+        transition: 0.5s;
+        cursor: pointer;
+      }
+      .banner .text-head button:hover {
+        background-color: var(--btn2);
+        color: var(--btn3);
+        letter-spacing: 3px;
+      }
+      .best-seller {
+        padding: 80px 20px 20px 20px;
+        height: 850px;
+      }
+      .best-seller h2 {
+        font-size: 35px;
+      }
+      .best-seller p {
+        font-size: 18px;
+        color: var(--btn4);
+      }
+      .best-seller .products {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      .best-seller .products {
+        text-align: center;
+        margin-top: 30px;
+      }
+      .best-seller .product {
+        width: 300px;
+        height: 100%;
+      }
+      .best-seller .product .image {
+        width: 100%;
+        overflow: hidden;
+        height: 450px;
+        margin-bottom: 10px;
+      }
+      .best-seller .image img {
+        transition: 0.5s;
+      }
+      .best-seller .products .product:hover img {
+        transform: scale(1.1);
+      }
+      .best-seller .products .product h3 {
+        color: var(--btn4);
+        font-size: var(--f15);
+        margin: 10px 0;
+      }
+      .best-seller .products .product .star {
+        display: flex;
+        justify-content: center;
+      }
+      .best-seller .text-head {
+        text-align: center;
+      }
+      .about {
+        background-color: rgb(248, 248, 248);
+        background-image: url(https://wdtlilac.wpengine.com/rtl-demo/wp-content/uploads/sites/3/2023/01/product-list-bg.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .about .box {
+        display: flex;
+        gap: 30px;
+      }
+      .about .box img,
+      .about .box .content {
+        width: 50%;
+      }
+      .about .box .content h3 {
+        font-size: 20px;
+        font-weight: 300;
+      }
+      .about .box .content h2 {
+        font-size: 30px;
+        margin: 15px 0;
+      }
+      .about .box .content p {
+        font-weight: 600;
+        margin-bottom: 30px;
+        line-height: 30px;
+      }
+      .about .box .content {
+        display: flex;
+        align-items: center;
+      }
+      .about .box button.btn-learn a {
+        font-size: 15px;
+        width: 200px;
+        display: block;
+        padding: 15px 0;
+      }
+      .about .box button.btn-learn a:hover {
+        letter-spacing: 2px;
+      }
+      .sale {
+        font-size: 25px;
+        text-align: center;
+        padding: 90px 30px;
+        background-color: var(--bg);
+        background-image: url(https://wdtlilac.wpengine.com/rtl-demo/wp-content/uploads/sites/3/2023/01/product-list-bg.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .sale p {
+        font-size: var(--f15);
+        font-weight: 500;
+        margin-top: 10px;
+      }
+      .sale p span {
+        font-size: 20px;
+        color: red;
+        font-weight: 700;
+      }
+      .sale #timer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        justify-content: center;
+        align-items: center;
+      }
+      .sale #timer h4 {
+        color: rgb(0, 193, 0);
+      }
+      .sale #timer div p {
+        width: 80px;
+        height: 80px;
+        text-align: center;
+        line-height: 80px;
+        border-radius: 3px;
+        background-color: var(--btn1);
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        color: var(--btn3);
+        font-size: 35px;
+      }
+      .form-register {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+      }
+      .form-register form,
+      .discount {
+        width: 50%;
+      }
+      .form-register .discount h3 {
+        margin-bottom: 30px;
+      }
+      .form-register form {
+        background-color: #ecdec1;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      }
+      .form-register label {
+        display: block;
+        font-size: var(--f15);
+        text-align: start;
+        color: rgb(255, 255, 255);
+      }
+      .form-register form h3 {
+        color: var(--btn3);
+      }
+      .form-register form input {
+        width: 100%;
+        height: 50px;
+        padding-left: 20px;
+        margin: 10px 0 10px 0;
+        border: none;
+        font-family: var(--fm-nu);
+        border-radius: 5px;
+        outline: none;
+        transition: 0.5s;
+      }
+      .form-register form input:focus {
+        box-shadow: rgba(14, 14, 14, 0.518) 0px 7px 29px 0px;
+      }
+      .form-register form button {
+        width: 100%;
+        height: 50px;
+        font-family: var(--fm-nu);
+        background-color: var(--btn2);
+        color: var(--btn3);
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.5s;
+        margin-top: 10px;
+        border: none;
+      }
+      .form-register form button:hover {
+        letter-spacing: 5px;
+      }
+      .form-register form .error {
+        display: block;
+        color: rgb(255, 0, 0);
+        text-align: start;
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+      .sale p {
+        font-size: 18px;
+        font-weight: 400;
+        color: #969696;
+      }
+      @media (max-width: 995px) {
+        .navbar .list-menu li a {
+          font-size: 12px;
+        }
+        .best-seller {
+          height: max-content;
+        }
+        .best-seller .products {
+          flex-wrap: wrap;
+        }
+        .about .box {
+          padding: 10px;
+          flex-wrap: wrap;
+        }
+        .about .box img,
+        .about .box .content {
+          width: 100%;
+          text-align: center;
+        }
+        .form-register {
+          display: block;
+        }
+        .form-register form {
+          margin: auto;
+          max-width: 400px;
+          width: 100%;
+        }
+        .form-register .discount {
+          width: 100%;
+        }
+        @media (max-width: 750px) {
+          .navbar {
+            padding: 20px;
+          }
+          .navbar .list-menu {
+            display: none;
+          }
+          .navbar .list-menu.active {
+            display: block;
+          }
+          .bar-icon {
+            display: flex;
+            border: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background-color: #d5d5d5;
+          }
+          .navbar img {
+            width: 120px;
+          }
+          .banner .slide h2 {
+            font-size: 40px;
+          }
+          .banner .slide h3 {
+            font-size: 15px;
+          }
+        }
+        @media (max-width: 500px) {
+          .banner .slide h2 {
+            font-size: 30px;
+            text-shadow: none;
+          }
+          .banner .slide h3 {
+            font-size: 12px;
+          }
+          .best-seller h2 {
+            font-size: 25px;
+          }
+          .best-seller p {
+            font-size: 15px;
+          }
+          .sale h3 {
+            font-size: 25px;
+          }
+          .sale p {
+            font-size: 15px;
+          }
+          .sale form h3 {
+            margin-bottom: 30px;
+          }
+          .sale form {
+            margin-bottom: 20px;
+          }
+          .navbar img {
+            width: 120px;
+            padding: 0 10px;
+          }
+          .bar-icon {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            padding: 5px;
+          }
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav class="navbar">
+        <button class="bar-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-align-justify"
+          >
+            <line x1="3" x2="21" y1="6" y2="6" />
+            <line x1="3" x2="21" y1="12" y2="12" />
+            <line x1="3" x2="21" y1="18" y2="18" />
+          </svg>
+        </button>
+        <img src="https://glowing.g5plus.net/main/wp-content/uploads/2021/10/logo-black.png" alt="" />
+        <ul class="list-menu">
+          <li><a href="#home">HOME</a></li>
+          <li><a href="#products">PRODUCTS</a></li>
+          <li><a href="#about">ABOUT</a></li>
+          <li><a href="#contact">CONTACT</a></li>
+        </ul>
+
+        <div class="right-btn">
+          <!-- <button class="btn-cart">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-shopping-cart"
+            >
+              <circle cx="8" cy="21" r="1" />
+              <circle cx="19" cy="21" r="1" />
+              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+            </svg>
+          </button> -->
+          <button class="btn-learn"><a href="#">LEARN MORE</a></button>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div id="home" class="banner swiper">
+        <div class="swiper-wrapper">
+          <div class="slide slide-first swiper-slide">
+            <div class="text-head">
+              <h3>PREMIUM COSMETICS</h3>
+              <h2>Beauty & Personal Care</h2>
+              <button>LEARN MORE</button>
+            </div>
+          </div>
+          <div class="slide slide-two swiper-slide">
+            <div class="text-head">
+              <h3>PREMIUM COSMETICS</h3>
+              <h2>Beauty & Personal Care</h2>
+              <button>LEARN MORE</button>
+            </div>
+          </div>
+          <div class="slide slide-three swiper-slide">
+            <div class="text-head">
+              <h3>PREMIUM COSMETICS</h3>
+              <h2>Beauty & Personal Care</h2>
+              <button>LEARN MORE</button>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+      <div id="products" class="best-seller">
+        <div class="text-head">
+          <h2>Our Best Sellers</h2>
+          <p>
+            Looking for something specific? Shop by category to find your <br />
+            perfect piece of jewellery!
+          </p>
+        </div>
+        <div class="products"></div>
+      </div>
+      <div id="about" class="about">
+        <div class="box">
+          <img src="https://wdtlilac.wpengine.com/rtl-demo/wp-content/uploads/sites/3/2023/06/about-1.jpg" alt="" />
+          <div class="content">
+            <div class="content-about">
+              <h3>EFFECTIVE FOR SKIN</h3>
+              <h2>Guaranteed Result In 2 Weeks</h2>
+              <p>
+                Quickly pursue granular synergy after just-in-time niche markets. Phosfluorescently syndicate sticky content whereas robust resources.
+                Uniquely target integrated meta-services and inexpensive process improvements. Distinctively matrix robust ideas through
+                customer-directed leadership skills. Efficiently evolve.
+              </p>
+              <button class="btn-learn"><a href="#">Learn More</a></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="contact" class="sale">
+        <h3>DISCOUNT PROGRAM</h3>
+        <p>Discount program for new customers.</p>
+        <div class="form-register">
+          <form id="orderForm">
+            <h3>Order Information</h3>
+            <div class="name">
+              <label>Full name</label>
+              <input type="text" id="fullName" placeholder="Please enter your full name" />
+              <span class="error" id="nameError"></span>
+            </div>
+            <div class="phone">
+              <label>Phone</label>
+              <input type="text" id="phone" placeholder="Please enter your phone" />
+              <span class="error" id="phoneError"></span>
+            </div>
+            <div class="email">
+              <label>Email</label>
+              <input type="email" id="email" placeholder="Please enter your email" />
+              <span class="error" id="emailError"></span>
+            </div>
+            <div class="address">
+              <label>Address</label>
+              <input type="text" id="address" placeholder="Please enter your address" />
+              <span class="error" id="addressError"></span>
+            </div>
+            <div class="note">
+              <label>Message</label>
+              <input type="text" id="message" placeholder="Please enter your message" />
+              <span class="error" id="messageError"></span>
+            </div>
+            <button type="submit">SUBMIT</button>
+          </form>
+          <div class="discount">
+            <h3>Promotion period remaining:</h3>
+            <div id="timer">
+              <div>
+                <h4>Day</h4>
+                <p id="days">01</p>
+              </div>
+              <div>
+                <h4>Hours</h4>
+                <p id="hours">04</p>
+              </div>
+              <div>
+                <h4>Minutes</h4>
+                <p id="minutes">00</p>
+              </div>
+              <div>
+                <h4>Seconds</h4>
+                <p id="seconds">00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+      const swiper = new Swiper(".swiper.banner", {
+        // Optional parameters
+        direction: "horizontal",
+        loop: true,
+
+        // If we need pagination
+        pagination: {
+          el: ".banner .swiper-pagination",
+          clickable: true,
+        },
+
+        // Navigation arrows
+        navigation: {
+          nextEl: ".banner .swiper-button-next",
+          prevEl: ".banner .swiper-button-prev",
+        },
+      });
+
+      const products = [
+        {
+          id: "1",
+          name: "Perfecting Facial Oil",
+          price: "$20.00",
+          star: 5,
+          imageUrl: "https://glowing.g5plus.net/main/wp-content/uploads/2021/10/product-13-4.jpg",
+        },
+        {
+          id: "2",
+          name: "Perfecting Facial Oil",
+          price: "$20.00",
+          star: 5,
+          imageUrl: "https://glowing.g5plus.net/main/wp-content/uploads/2021/10/product-11-3.jpg",
+        },
+        {
+          id: "3",
+          name: "Perfecting Facial Oil",
+          price: "$20.00",
+          star: 5,
+          imageUrl: "https://glowing.g5plus.net/main/wp-content/uploads/2021/10/product-10-3.jpg",
+        },
+        {
+          id: "4",
+          name: "Perfecting Facial Oil",
+          price: "$20.00",
+          star: 5,
+          imageUrl: "https://glowing.g5plus.net/main/wp-content/uploads/2021/10/product-12-3.jpg",
+        },
+      ];
+      const productsHtml = document.querySelector(".products");
+      products.forEach((product) => {
+        const { name, price, star, imageUrl } = product;
+        let starsHtml = "";
+        for (let i = 0; i < star; i++) {
+          starsHtml += `
+        <li>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="#4e7661"
+            stroke="#4e7661"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-star"
+          >
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+        </li>
+      `;
+        }
+        productsHtml.innerHTML += `
+          <div class="product">
+                <div class="image">
+                  <img src="${imageUrl}" alt="" />
+                </div>
+                <h4>${price}</h4>
+                <h3>${name}</h3>
+                <ul class="star">
+                  ${starsHtml}
+                </ul>
+            </div>
+          `;
+      });
+      function startTimer(duration, elements) {
+        let timer = duration;
+        setInterval(() => {
+          let days = Math.floor(timer / (3600 * 24)),
+            hours = Math.floor((timer % (3600 * 24)) / 3600),
+            minutes = Math.floor((timer % 3600) / 60),
+            seconds = Math.floor(timer % 60);
+
+          elements.days.textContent = days.toString().padStart(2, "0");
+          elements.hours.textContent = hours.toString().padStart(2, "0");
+          elements.minutes.textContent = minutes.toString().padStart(2, "0");
+          elements.seconds.textContent = seconds.toString().padStart(2, "0");
+
+          timer = timer > 0 ? timer - 1 : duration;
+        }, 1000);
+      }
+      window.onload = () => {
+        const totalSeconds = 3600 * 28,
+          elements = {
+            days: document.getElementById("days"),
+            hours: document.getElementById("hours"),
+            minutes: document.getElementById("minutes"),
+            seconds: document.getElementById("seconds"),
+          };
+        startTimer(totalSeconds, elements);
+      };
+      document.getElementById("orderForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+        let isValid = true;
+
+        // Clear previous error messages
+        document.querySelectorAll(".error").forEach((error) => (error.textContent = ""));
+
+        // Check Full Name
+        const fullName = document.getElementById("fullName");
+        if (fullName.value.trim() === "") {
+          isValid = false;
+          document.getElementById("nameError").textContent = "Please enter your full name";
+        }
+
+        // Check Phone
+        const phone = document.getElementById("phone");
+        if (phone.value.trim() === "") {
+          isValid = false;
+          document.getElementById("phoneError").textContent = "Please enter your phone";
+        }
+
+        // Check Email
+        const email = document.getElementById("email");
+        if (email.value.trim() === "") {
+          isValid = false;
+          document.getElementById("emailError").textContent = "Please enter your email";
+        }
+
+        // Check Address
+        const address = document.getElementById("address");
+        if (address.value.trim() === "") {
+          isValid = false;
+          document.getElementById("addressError").textContent = "Please enter your address";
+        }
+
+        // Check Message
+        const message = document.getElementById("message");
+        if (message.value.trim() === "") {
+          isValid = false;
+          document.getElementById("messageError").textContent = "Please enter your message";
+        }
+
+        if (isValid) {
+          const info = {
+            fullName: fullName.value,
+            phone: phone.value,
+            email: email.value,
+            address: address.value,
+            message: message.value,
+          };
+          await postGoogle(info);
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+      
+      const listMenu = document.querySelector(".list-menu");
+      const itemsMenu = document.querySelectorAll(".list-menu");
+      const barIcon = document.querySelector(".bar-icon");
+
+      barIcon.addEventListener("click", () => {
+        listMenu.classList.toggle("active");
+      });
+      itemsMenu.forEach((item) => {
+        item.addEventListener("click", () => {
+          listMenu.classList.remove("active");
+        });
+      });
+
+      // HÀM POST TO GOOGLE FORM
+      async function postGoogle(info) {
+        const formURL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSd0zkX0RzsP7CwMw_E5wB4PviZCONCen5TmMgORWMqcQG0IWQ/formResponse";
+
+        const postName = "entry.1259664354";
+        const postEmail = "entry.1053567182";
+        const postPhone = "entry.1398138521";
+        const postAddress = "entry.1668026119";
+        const postMessage = "entry.1730713076";
+
+        const formData = new FormData();
+        formData.append(postName, info.fullName);
+        formData.append(postPhone, info.phone);
+        formData.append(postEmail, info.email);
+        formData.append(postAddress, info.address);
+        formData.append(postMessage, info.message);
+
+        try {
+          await fetch(formURL, {
+            method: "POST",
+            body: formData,
+          });
+        } catch {
+          console.error("Lỗi");
+        }
+      }
+    </script>
+  </body>
+</html>
